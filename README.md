@@ -16,5 +16,3 @@ Since the functions for reading from JSON exist and are used with a read-only fi
 easy to allow for reading in from JSON files that have been saved from this program. Thinking of
 holidays.json as a seed, further runs might use a try except block where the try would allow the saved
 file to be loaded in but the except would have the holidays.json instead.
-
--Need to get Weather API working!
