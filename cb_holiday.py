@@ -151,12 +151,17 @@ class HolidayList:
         # * Remember to use the holiday __str__ method.
         return
 
-    def getWeather(weekNum):
-        pass
-        # Convert weekNum to range between two days
-        # Use Try / Except to catch problems
-        # Query API for weather in that week range
-        # Format weather information and return weather string.
+    def getWeather(self):
+        response = requests.get('http://api.weatherapi.com/v1/forecast.json?key=43b9fc7c684d4dea889201556220801&q=Milwaukee&days=7&aqi=no&alerts=no')
+        data = response.json()
+        data_list = data['forecast']['forecastday']
+        weather_list = []
+        for item in data_list:
+            temp_dict = {}
+            temp_dict['date'] = item['date']
+            temp_dict['condition'] = item['day']['condition']['text']
+            weather_list.append(temp_dict)
+        return weather_list
 
     def viewCurrentWeek(self):
         x = datetime.now()
@@ -167,7 +172,12 @@ class HolidayList:
         # for the current week/year
         current_holidays = self.filter_holidays_by_week(current_year, current_week)
         # Use your displayHolidaysInWeek function to display the holidays in the week
-        self.displayHolidaysInWeek(current_holidays)
+        user_input = input('Would you like to see the weather for the coming 7 days? [y/n]: ')
+        if user_input.lower() == 'y':
+            self.displayHolidaysInWeek(current_holidays)
+            weather_list = self.getWeather()
+            for item in weather_list:
+                print(str(item['date']) + ': ' + str(item['condition']))
         # Ask user if they want to get the weather
         # If yes, use your getWeather function and display results
         return
