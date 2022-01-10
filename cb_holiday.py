@@ -3,8 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import requests
 from dataclasses import dataclass
-
-
+import config
 # -------------------------------------------
 # Modify the holiday class to 
 # 1. Only accept Datetime objects for date.
@@ -152,7 +151,9 @@ class HolidayList:
         return
 
     def getWeather(self):
-        response = requests.get('http://api.weatherapi.com/v1/forecast.json?key=43b9fc7c684d4dea889201556220801&q=Milwaukee&days=7&aqi=no&alerts=no')
+        api_key = config.api_key
+        url = 'http://api.weatherapi.com/v1/forecast.json?key={key}&q=Milwaukee&days=7&aqi=no&alerts=no'
+        response = requests.get(url.format(key = api_key))
         data = response.json()
         data_list = data['forecast']['forecastday']
         weather_list = []
